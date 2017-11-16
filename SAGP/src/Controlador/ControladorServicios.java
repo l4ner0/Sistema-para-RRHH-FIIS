@@ -11,6 +11,7 @@ import Modelo.EmpleadoDAO;
 import Vista.IUControlTiempos;
 import Vista.Ventanas.*;
 import Vista.Ventanas.*;
+import java.awt.Color;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,7 +62,7 @@ public class ControladorServicios implements Runnable{
                    ArrayList datosEmpleado=empleadoDAO.BuscarEmpleado(request);
                    if(datosEmpleado!=null){
                        if(ventana.ventanaControlAsistencia==false)
-                    {   
+                    {   vtnControl.getContentPane().setBackground(new java.awt.Color(46, 204, 113));
                         vtnControl.setVisible(true);
                 
                         ventana.ventanaControlAsistencia=true;
