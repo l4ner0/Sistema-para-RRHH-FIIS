@@ -22,7 +22,6 @@ public class ControladorNT implements ActionListener {
     VtnNuevoTrabajador vtnNuevoTrabajador = new VtnNuevoTrabajador();
     EmpleadoDAO empleadoDAO = new EmpleadoDAO();
     ControladorValidarInputs validarVacios= new ControladorValidarInputs();
-    ControladorCamaraWeb camara = new ControladorCamaraWeb();
      ControladorCarnet carnet=new ControladorCarnet();
     String opcionSexo;
     
@@ -32,7 +31,6 @@ public class ControladorNT implements ActionListener {
         this.vtnNuevoTrabajador=vtnNuevoTrabajador;
         this.empleadoDAO = empleadoDAO;
         this.vtnNuevoTrabajador.btnGrabar.addActionListener(this);
-        this.vtnNuevoTrabajador.btnTomarFoto.addActionListener(this);
         this.vtnNuevoTrabajador.cbArea.addActionListener(this);
         this.vtnNuevoTrabajador.cbPuesto.addActionListener(this);
         llenarAreas();
@@ -40,11 +38,7 @@ public class ControladorNT implements ActionListener {
     
     public void actionPerformed(ActionEvent e){
         
-        if(e.getSource()==vtnNuevoTrabajador.btnTomarFoto)
-        {
-            camara.run();
-        }
-        
+
         if(e.getSource()==vtnNuevoTrabajador.btnGrabar)
         {
             if(vtnNuevoTrabajador.txtApPa.getText().equals(""))

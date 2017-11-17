@@ -50,6 +50,7 @@ variableStatica ventana = new variableStatica();
         txtPuesto = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Control de Asistencias");
 
         txtApNom.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtApNom.setHorizontalAlignment(javax.swing.JTextField.CENTER);

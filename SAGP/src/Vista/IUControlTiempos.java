@@ -67,6 +67,7 @@ public class IUControlTiempos extends javax.swing.JFrame {
         pnlCentral = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Control de Tiempos");
         setExtendedState(MAXIMIZED_BOTH);
 
         pnlPrincipal.setBackground(new java.awt.Color(255, 255, 255));
