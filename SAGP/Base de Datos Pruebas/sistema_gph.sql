@@ -84,6 +84,7 @@ CREATE TABLE puesto
  sueldoBasico decimal(7,2) NOT NULL,
  vacantes int Not null,
  idArea int FOREIGN KEY REFERENCES areasEmpresa(idArea) NOT NULL
+ 
 )
 GO
 
@@ -119,7 +120,7 @@ CREATE TABLE empleado
  DistritoResidencia varchar(15) NOT NULL,
  direccion varchar(40) NOT NULL,
  telefono char(9) check (telefono like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')unique NULL,
- correoElectronico varchar(20) unique NULL,
+ correoElectronico varchar(100) unique NULL,
  asignacionFamiliar varchar(2) check (asignacionFamiliar IN ('Si','No')) NOT NULL,
  idArea int FOREIGN KEY REFERENCES areasEmpresa(idArea) NOT NULL,
  idPuesto int FOREIGN KEY REFERENCES puesto(idPuesto) NOT NULL,
@@ -259,6 +260,23 @@ INSERT INTO horario VALUES(@TURNO,@HORAEN,@HORASA);
 end
 GO
 
+CREATE PROC usp_mostrar_horarios 
+AS
+BEGIN
+	select * from horario 
+	
+END
+go
+
+CREATE PROC usp_verifica_horario
+@idEmpleado VARCHAR(13)
+AS
+BEGIN
+	select * from horario where idHorario = (select idHorario from HorarioPuesto where idPuesto =(select idPuesto from empleado where idEmpleado=@idEmpleado))
+END 
+GO	
+	
+
 --puesto-----------------------------------------------------------------------------------------------------------------------
 create proc usp_graba_puesto
 @NOMPUESTO VARCHAR(40), @DESPUESTO TEXT,@REQUEPUESTO TEXT,
@@ -307,6 +325,23 @@ begin
 INSERT INTO HorarioPuesto VALUES(@IdPUESTO,@IdHORARIO);
 end
 GO
+
+CREATE PROC usp_mostrar_horarioP
+AS
+BEGIN
+	select * from HorarioPuesto
+	
+END
+go
+
+CREATE PROC usp_eliminar_horarioPuesto
+@idHoraPuesto int
+AS
+BEGIN
+ delete from HorarioPuesto where idHoraPuesto=@idHoraPuesto
+ END
+ GO
+
 --EJECUTANDO P.A.
 EXEC usp_graba_HorarioPuesto '2','1'
 SELECT*FROM HorarioPuesto
@@ -323,7 +358,7 @@ create proc usp_graba_empleado
 @IdEMPLE CHAR(13),@fotoEmpleado VARCHAR(200), @NOMEMPLE VARCHAR(20), @APEPATERNO VARCHAR(20),
 @APEMATERNO VARCHAR(20), @SEXO VARCHAR(10), @DNI CHAR(8),
 @FECHANACI VARCHAR(100), @DISTRITO VARCHAR(15), @DIREC VARCHAR(40),
-@TELEF CHAR(9),@CORREO VARCHAR(20), @ASIGFAMILI VARCHAR(2),
+@TELEF CHAR(9),@CORREO VARCHAR(100), @ASIGFAMILI VARCHAR(2),
 @IdAREA INT, @IdPUESTO INT, @IdRETENCION INT
 AS
 begin 
@@ -334,15 +369,14 @@ go
 
 create proc usp_modifica_empleado
 @IdEMPLE CHAR(13),@fotoEmpleado VARCHAR(200), @NOMEMPLE VARCHAR(20), @APEPATERNO VARCHAR(20),
-@APEMATERNO VARCHAR(20), @SEXO VARCHAR(10), @DNI CHAR(8),
+@APEMATERNO VARCHAR(20), @SEXO VARCHAR(10), 
 @FECHANACI DATE, @DISTRITO VARCHAR(15), @DIREC VARCHAR(40),
-@TELEF CHAR(9),@CORREO VARCHAR(20), @ASIGFAMILI VARCHAR(2),
-@IdAREA INT, @IdPUESTO INT, @IdRETENCION INT
+@TELEF CHAR(9),@CORREO VARCHAR(100), @ASIGFAMILI VARCHAR(2)
 AS
 begin
-	update empleado set idEmpleado=@IdEMPLE,fotoEmpleado=@fotoEmpleado,nombres=@NOMEMPLE,apellidoPaterno=@APEPATERNO,apellidoMaterno=@APEMATERNO,
-			sexo=@SEXO,DNI=@DNI, fechaNacimiento=@FECHANACI,DistritoResidencia= @DISTRITO,direccion=@DIREC,telefono=@TELEF,
-			correoElectronico=@CORREO,asignacionFamiliar=@ASIGFAMILI,idArea=@IdAREA,idPuesto=@IdPUESTO,idRetencion=@IdRETENCION 
+	update empleado set fotoEmpleado=@fotoEmpleado,nombres=@NOMEMPLE,apellidoPaterno=@APEPATERNO,apellidoMaterno=@APEMATERNO,
+			sexo=@SEXO,fechaNacimiento=@FECHANACI,DistritoResidencia= @DISTRITO,direccion=@DIREC,telefono=@TELEF,
+			correoElectronico=@CORREO,asignacionFamiliar=@ASIGFAMILI 
 			where idEmpleado=@IdEMPLE
 end 
 go

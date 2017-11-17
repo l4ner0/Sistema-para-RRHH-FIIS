@@ -5,10 +5,10 @@ import Controlador.ControladorUICT;
 import Controlador.variableEstaticaCont;
 import Vista.Ventanas.VtnNuevoTrabajador;
 
-public class Menú extends javax.swing.JFrame {
+public class Menu extends javax.swing.JFrame {
 
 
-    public Menú() {
+    public Menu() {
         initComponents();
         setLocationRelativeTo(this);
     }
@@ -148,6 +148,7 @@ public class Menú extends javax.swing.JFrame {
         VtnNuevoTrabajador vtnNuevoTrabajador = new VtnNuevoTrabajador();
         ControladorUICT  control = new ControladorUICT(controlTiempos);
         controlTiempos.setVisible(true);
+        dispose();
     }//GEN-LAST:event_lblCostoTiempoMouseClicked
 
     private void lblNominaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNominaMouseClicked

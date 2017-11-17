@@ -201,7 +201,7 @@ public class EmpleadoDAO {
          return sueld_total; 
     }
     
-    //Se agregó el método llenar Empleado
+
     public ArrayList<Empleado> getEmpleado(){ 
        ArrayList<Empleado> emp= new ArrayList<>();
        Empleado empleado =null;
@@ -223,6 +223,119 @@ public class EmpleadoDAO {
             System.out.println("Error : "+e.getMessage());
         }
        return emp;
+    }
+    
+    public boolean verificaHorario(String idEmpleado,String horaEntrada){
+        boolean verifica=false;
+        int horaEntradaPuesto=0;
+        int horaEntradaEmpleado=0;
+        
+        try
+        {
+            Connection accesoDB=conexion.getConexion();
+            CallableStatement cs = accesoDB.prepareCall("{call usp_verifica_horario(?)}");
+            cs.setString(1, idEmpleado);
+            ResultSet rs=cs.executeQuery();
+            boolean resultado=rs.next();
+            if(resultado)
+            {
+                String hora=rs.getString(3).substring(0,2);
+                horaEntradaPuesto=Integer.parseInt(hora);
+                horaEntradaEmpleado=Integer.parseInt(horaEntrada);
+                if(horaEntradaPuesto>=horaEntradaEmpleado)
+                {
+                    System.out.println("Estas a tiempo xD");
+                    verifica=true;
+                }else
+                {
+                    System.out.println("Llegas tarde :(");
+                    verifica=false;
+                }
+            }
+            
+        }catch(Exception e)
+        {
+            System.out.println("Error "+e);
+        }
+        return verifica;
+    }
+    
+    public boolean EditarEmpleado(String idEmpleado,String fotoEmpleado,
+        String nombres,String apellidoPaterno,String apellidoMaterno,String sexo,
+        String DNI,String fechaNacimiento,String DistritoResidencia,
+        String direccion,String telefono,String correoElectronico,
+        String asignacionFamiliar ){
+        
+        boolean registro=false;
+        try
+        {
+           Connection accesoDB=conexion.getConexion();
+           CallableStatement cs = accesoDB.prepareCall("{call usp_modifica_empleado("
+                   + "?,?,?,?,?,?,?,?,?,?,?,?)}");
+           
+           cs.setString(1,idEmpleado);
+           cs.setString(2,fotoEmpleado);
+           cs.setString(3,nombres);
+           cs.setString(4,apellidoPaterno);
+           cs.setString(5,apellidoMaterno);
+           cs.setString(6,sexo);
+           cs.setString(7,fechaNacimiento);
+           cs.setString(8,DistritoResidencia);
+           cs.setString(9,direccion);
+           cs.setString(10,telefono);
+           cs.setString(11,correoElectronico);
+           cs.setString(12,asignacionFamiliar);
+                  
+           int filasAfect=cs.executeUpdate();
+           if(filasAfect>0)
+           {
+               registro=true;
+           }
+        }catch(Exception e)
+        {
+            System.out.println( "Editar Empleado "+e);
+        }
+        return registro;
+    }
+    
+    public ArrayList<Empleado> listarDatosEmpleado(){ 
+       ArrayList<Empleado> emp= new ArrayList<>();
+       Empleado empleado =null;
+        try {
+            Connection accesoDB=conexion.getConexion();
+            CallableStatement cs = accesoDB.prepareCall("{call usp_mostrar_empleados}");
+            ResultSet rs=cs.executeQuery();
+            while(rs.next()){
+                empleado= new Empleado();
+                empleado.setIdEmpleado(rs.getString(1));
+                empleado.setNombres(rs.getString(3));
+                empleado.setApellidoPaterno(rs.getString(4));
+                empleado.setApellidoMaterno(rs.getString(5));
+                empleado.setDNI(rs.getString(6));
+                emp.add(empleado);
+            }
+        } catch (Exception e) {
+            System.out.println("Error : "+e.getMessage());
+        }
+       return emp;
+    }
+    
+    public boolean eliminarEmpleado(String idEmpleado){
+        boolean respuesta=false;
+        try {
+            Connection accesoDB=conexion.getConexion();
+            CallableStatement cs = accesoDB.prepareCall("{call usp_elimina_empleado(?)}");
+            cs.setString(1,idEmpleado);
+            int filasAfect=cs.executeUpdate();
+           if(filasAfect>0)
+           {
+                 respuesta = true;
+           }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return respuesta;
     }
     
 }

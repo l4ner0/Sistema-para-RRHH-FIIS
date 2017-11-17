@@ -32,6 +32,8 @@ public class IUControlTiempos extends javax.swing.JFrame {
             public void windowClosing(java.awt.event.WindowEvent e ) 
             { 
                 variableEstaticaCont.procesoServicios=false;
+                Menu menu = new Menu();
+                menu.setVisible(true);
                 dispose();
             } 
         } 
@@ -584,7 +586,7 @@ public class IUControlTiempos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReporteMousePressed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        dispose();
+        
     }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
@@ -599,7 +601,7 @@ public class IUControlTiempos extends javax.swing.JFrame {
     private javax.swing.JButton btnMenu;
     public rsbuttom.RSButtonMetro btnNuevoTrabajador;
     public rsbuttom.RSButtonMetro btnReporte;
-    private rsbuttom.RSButtonMetro btnSalir;
+    public rsbuttom.RSButtonMetro btnSalir;
     private javax.swing.JLabel lblAsistencia;
     private javax.swing.JLabel lblTrabajador;
     private javax.swing.JPanel panelMenu;

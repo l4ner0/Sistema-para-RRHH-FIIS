@@ -9,6 +9,7 @@ package Controlador;
 
 import Modelo.*;
 import Vista.IUControlTiempos;
+import Vista.Menu;
 import Vista.Ventanas.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,7 @@ public class ControladorUICT implements ActionListener{
     VtnControl vntControl = new VtnControl();
     EmpleadoDAO empleadoDAO = new EmpleadoDAO();
     AsistenciaDAO asistenciaDAO = new AsistenciaDAO();
+    
     public final static int PORT=5000;
     public ControladorUICT(IUControlTiempos iuControlTiempos){
         this.iuControlTiempos=iuControlTiempos;
@@ -39,6 +41,7 @@ public class ControladorUICT implements ActionListener{
         this.iuControlTiempos.btnListar.addActionListener(this);
         this.iuControlTiempos.btnControl.addActionListener(this);
         this.iuControlTiempos.btnReporte.addActionListener(this);
+        this.iuControlTiempos.btnSalir.addActionListener(this);
         ControladorServicios servidor = new ControladorServicios(vntControl,empleadoDAO);
         Thread server = new Thread(servidor);   
         server.start();
@@ -74,13 +77,14 @@ public class ControladorUICT implements ActionListener{
         if(e.getSource()==iuControlTiempos.btnListar)
         {
            VtnListar listar = new VtnListar();
-           ControladorLT controladorListar = new ControladorLT(listar,empleadoDAO);
+           
+           ControladorLT controladorListar = new ControladorLT(listar);
             
             
             if(ventana.ventanaListarEmpleado==false)
             {   
+                controladorListar.llenarTabla();
                 listar.setVisible(true);
-                
                 ventana.ventanaListarEmpleado=true;
             }
         }
@@ -98,6 +102,12 @@ public class ControladorUICT implements ActionListener{
                 ventana.ventanaReporteAsistencias=true;
             }
             
+        }
+        if(e.getSource()==iuControlTiempos.btnSalir)
+        {
+            Menu menu = new Menu();
+            menu.setVisible(true);
+             iuControlTiempos.dispose();
         }
         
         

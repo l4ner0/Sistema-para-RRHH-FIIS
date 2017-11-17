@@ -19,6 +19,8 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -55,6 +57,7 @@ public class ControladorServicios implements Runnable{
 
              
              String request=input.readLine();
+             String estado="";
                if(request!=null)
                {    
                    
@@ -62,7 +65,8 @@ public class ControladorServicios implements Runnable{
                    ArrayList datosEmpleado=empleadoDAO.BuscarEmpleado(request);
                    if(datosEmpleado!=null){
                        if(ventana.ventanaControlAsistencia==false)
-                    {   vtnControl.getContentPane().setBackground(new java.awt.Color(46, 204, 113));
+                    {  
+                        
                         vtnControl.setVisible(true);
                 
                         ventana.ventanaControlAsistencia=true;
@@ -84,7 +88,21 @@ public class ControladorServicios implements Runnable{
                        vtnControl.txtApNom.setText(ApellidoP+" "+ApellidoM+" "+Nombres);
                        vtnControl.txtArea.setText(area);
                        vtnControl.txtPuesto.setText(puesto);
-                       JOptionPane.showMessageDialog(null,"Se marco asistencia al empleado "+request);
+                       Calendar calendario = new GregorianCalendar();
+                        int hora;
+                        hora =calendario.get(Calendar.HOUR_OF_DAY);
+                        boolean resultado=empleadoDAO.verificaHorario(request, String.valueOf(hora));
+                        System.out.println(resultado);
+                        if(resultado)
+                        {
+                            vtnControl.getContentPane().setBackground(new java.awt.Color(46, 204, 113));
+                            estado="LLEGO TEMPRANO";
+                        }else
+                        {
+                            vtnControl.getContentPane().setBackground(new java.awt.Color(231, 76, 60));
+                            estado="LLEGO TARDE";
+                        }
+                       JOptionPane.showMessageDialog(null,"Se marco asistencia al empleado \n"+request+"\n"+estado);
                    }else{
                        JOptionPane.showMessageDialog(null,"El empleado no existe");
                        vtnControl.txtIdEmpleado.setText("");

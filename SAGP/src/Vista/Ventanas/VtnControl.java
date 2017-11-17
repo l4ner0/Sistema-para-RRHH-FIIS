@@ -56,8 +56,6 @@ variableStatica ventana = new variableStatica();
         txtApNom.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         txtApNom.setDisabledTextColor(new java.awt.Color(255, 255, 255));
 
-        lblFotoEmp.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         txtIdEmpleado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtIdEmpleado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtIdEmpleado.setBorder(javax.swing.BorderFactory.createEtchedBorder());

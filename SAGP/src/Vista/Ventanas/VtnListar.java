@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Vista.Ventanas;
+import javax.swing.JTable;
 
 /**
  *
@@ -42,10 +43,18 @@ variableStatica ventana = new variableStatica();
         jLabel1 = new javax.swing.JLabel();
         pnlListar = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaListar = new javax.swing.JTable();
+        tablaListar = new JTable(){
+
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+
+                return false; //Las celdas no son editables.
+
+            }
+        };
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
 
         jButton3.setText("jButton3");
 
@@ -61,7 +70,7 @@ variableStatica ventana = new variableStatica();
 
             },
             new String [] {
-                "ID Empleado", "Apellidos", "Nombres"
+
             }
         ));
         jScrollPane1.setViewportView(tablaListar);
@@ -72,19 +81,22 @@ variableStatica ventana = new variableStatica();
 
         btnSalir.setText("Salir");
 
+        btnActualizar.setText("Actualizar");
+
         javax.swing.GroupLayout pnlListarLayout = new javax.swing.GroupLayout(pnlListar);
         pnlListar.setLayout(pnlListarLayout);
         pnlListarLayout.setHorizontalGroup(
             pnlListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlListarLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addGroup(pnlListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(pnlListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
         pnlListarLayout.setVerticalGroup(
             pnlListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,23 +109,25 @@ variableStatica ventana = new variableStatica();
                 .addComponent(btnModificar)
                 .addGap(27, 27, 27)
                 .addComponent(btnEliminar)
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
+                .addComponent(btnActualizar)
+                .addGap(19, 19, 19)
                 .addComponent(btnSalir)
-                .addGap(83, 83, 83))
+                .addGap(55, 55, 55))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pnlListar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68))
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlListar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,6 +148,7 @@ variableStatica ventana = new variableStatica();
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnActualizar;
     public javax.swing.JButton btnEliminar;
     public javax.swing.JButton btnModificar;
     public javax.swing.JButton btnSalir;

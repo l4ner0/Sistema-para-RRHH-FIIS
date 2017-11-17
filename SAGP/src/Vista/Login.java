@@ -322,7 +322,7 @@ public class Login extends javax.swing.JFrame {
         u.setContra(txtPassword.getText());;
         usuarioController controller = new usuarioController();
         if(controller.validarLogin(u)){
-           Menú m = new Menú();
+           Menu m = new Menu();
            m.setVisible(true);
            dispose();
         }else{

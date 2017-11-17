@@ -11,4 +11,5 @@ package Controlador;
  */
 public class variableEstaticaCont {
     public static boolean procesoServicios=true;
+    public static String idEmpleadoEdit="";
 }
