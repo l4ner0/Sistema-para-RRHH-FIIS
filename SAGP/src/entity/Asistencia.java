@@ -10,21 +10,20 @@ package entity;
  * @author eljoche
  */
 public class Asistencia {
-    int idAsistencia;
+   int idAsistencia;
     String fechaAsistencia;
     String horaEntrada;
     String horaSalida;
     String idEmpleado;
     int idHorario;
-    
-    public Asistencia(){
-        idAsistencia=0;
-        fechaAsistencia="";
-        horaEntrada="";
-        horaSalida="";
-        idEmpleado="";
-        idHorario=0;
-                
+
+    public Asistencia() {
+        this.idAsistencia=0;
+        this.fechaAsistencia="";
+        this.horaEntrada="";
+        this.horaSalida="";
+        this.idEmpleado="";
+        this.idHorario=0;
     }
 
     public int getIdAsistencia() {

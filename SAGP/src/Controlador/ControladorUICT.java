@@ -42,7 +42,7 @@ public class ControladorUICT implements ActionListener{
         this.iuControlTiempos.btnControl.addActionListener(this);
         this.iuControlTiempos.btnReporte.addActionListener(this);
         this.iuControlTiempos.btnSalir.addActionListener(this);
-        ControladorServicios servidor = new ControladorServicios(vntControl,empleadoDAO);
+        ControladorServicios servidor = new ControladorServicios(vntControl,empleadoDAO,asistenciaDAO);
         Thread server = new Thread(servidor);   
         server.start();
         
@@ -93,6 +93,7 @@ public class ControladorUICT implements ActionListener{
         {
             VtnReporteAs reporte = new VtnReporteAs();
            ControladorRA controladorRA = new ControladorRA(reporte,asistenciaDAO);
+           
             
             
             if(ventana.ventanaReporteAsistencias==false)

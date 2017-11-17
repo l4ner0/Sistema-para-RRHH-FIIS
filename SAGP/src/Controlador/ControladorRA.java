@@ -8,9 +8,13 @@ package Controlador;
 import Modelo.AsistenciaDAO;
 import Vista.Ventanas.VtnReporteAs;
 import Vista.Ventanas.variableStatica;
+import entity.Asistencia;
+import entity.Empleado;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,29 +27,25 @@ public class ControladorRA implements ActionListener{
     public ControladorRA(VtnReporteAs vtnReporteAs, AsistenciaDAO asistenciaDAO){
         this.vtnReporteAs=vtnReporteAs;
         this.asistenciaDAO=asistenciaDAO;
-        this.vtnReporteAs.cbBusquedaArea.addActionListener(this);
-        this.vtnReporteAs.cbPuesto.addActionListener(this);
-        this.vtnReporteAs.txtBusqEmp.addActionListener(this);
+        this.vtnReporteAs.btnAsistencias.addActionListener(this);
         this.vtnReporteAs.bttnGenerarPDF.addActionListener(this);
         this.vtnReporteAs.btnSalir.addActionListener(this);
     }
     
     public void actionPerformed(ActionEvent e){
-        if(e.getSource()==vtnReporteAs.cbBusquedaArea)
+
+        if(e.getSource()==vtnReporteAs.btnAsistencias)
         {
-            JOptionPane.showMessageDialog(null,"Seleccionastes Busqueda Areas");
+           String idEmpleado= vtnReporteAs.txtBusqEmp.getText();
+           System.out.println("Este es el id:"+idEmpleado);
+           if(idEmpleado!="")
+           {
+               llenarTabla(idEmpleado);
+           }else
+           {
+               JOptionPane.showMessageDialog(null,"Escriba un código válido");
+           }
         }
-        
-        if(e.getSource()==vtnReporteAs.cbPuesto)
-        {
-            JOptionPane.showMessageDialog(null,"Seleccionastes Busqueda Puesto");
-        }
-        
-        if(e.getSource()==vtnReporteAs.txtBusqEmp)
-        {
-            JOptionPane.showMessageDialog(null,"Seleccionastes Id Empleado");
-        }
-        
         if(e.getSource()==vtnReporteAs.bttnGenerarPDF)
         {
             JOptionPane.showMessageDialog(null,"Seleccionastes boton Generar PDF");
@@ -58,4 +58,19 @@ public class ControladorRA implements ActionListener{
             
         }
     }
+    
+    public void llenarTabla(String idEmpleado){
+         String data[][]={};
+        String cabeza[]={"Fecha Asistencia","Hora Entrada","Hora Salida"};
+        DefaultTableModel model = new DefaultTableModel(data,cabeza);
+        vtnReporteAs.tablaReporteAs.setModel(model);
+        empleadoController controller = new empleadoController();
+        for (Asistencia  asistencia: controller.ListarAsistencias(idEmpleado)) {
+        Object ob[] ={asistencia.getFechaAsistencia(),asistencia.getHoraEntrada().substring(0,5),asistencia.getHoraSalida().substring(0,5)};
+        model.addRow(ob);
+        }
+         
+     }
+    
+    
 }

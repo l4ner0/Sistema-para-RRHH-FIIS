@@ -84,7 +84,6 @@ CREATE TABLE puesto
  sueldoBasico decimal(7,2) NOT NULL,
  vacantes int Not null,
  idArea int FOREIGN KEY REFERENCES areasEmpresa(idArea) NOT NULL
- 
 )
 GO
 
@@ -135,7 +134,7 @@ end
 GO
 CREATE TABLE asistencia
 (
- idAsistencia int primary key NOT NULL,
+ idAsistencia  int PRIMARY KEY IDENTITY(1,1),
  fechaAsistencia date NOT NULL,
  horaEntrada time NOT NULL,
  horaSalida time NOT NULL,
@@ -260,22 +259,13 @@ INSERT INTO horario VALUES(@TURNO,@HORAEN,@HORASA);
 end
 GO
 
-CREATE PROC usp_mostrar_horarios 
+create proc usp_mostrar_horario
 AS
 BEGIN
-	select * from horario 
+	select * from horario
 	
-END
+end
 go
-
-CREATE PROC usp_verifica_horario
-@idEmpleado VARCHAR(13)
-AS
-BEGIN
-	select * from horario where idHorario = (select idHorario from HorarioPuesto where idPuesto =(select idPuesto from empleado where idEmpleado=@idEmpleado))
-END 
-GO	
-	
 
 --puesto-----------------------------------------------------------------------------------------------------------------------
 create proc usp_graba_puesto
@@ -325,26 +315,44 @@ begin
 INSERT INTO HorarioPuesto VALUES(@IdPUESTO,@IdHORARIO);
 end
 GO
-
-CREATE PROC usp_mostrar_horarioP
-AS
-BEGIN
-	select * from HorarioPuesto
-	
-END
-go
-
-CREATE PROC usp_eliminar_horarioPuesto
-@idHoraPuesto int
-AS
-BEGIN
- delete from HorarioPuesto where idHoraPuesto=@idHoraPuesto
- END
- GO
-
 --EJECUTANDO P.A.
 EXEC usp_graba_HorarioPuesto '2','1'
 SELECT*FROM HorarioPuesto
+
+
+
+create proc usp_eliminar_horarioPuesto
+@idHoraPuesto INT
+as
+begin
+delete from HorarioPuesto where idHoraPuesto = @idHoraPuesto
+end
+go
+
+create proc usp_verifica_horario
+@idEmpleado VARCHAR(13)
+AS
+BEGIN
+	select * from horario where idHorario=(select idHorario from HorarioPuesto where idPuesto=(select idPuesto from empleado where idEmpleado=@idEmpleado))
+END
+GO
+
+create proc usp_eliminar_horarioPuesto
+@idHoraPuesto INT
+as
+begin
+delete from HorarioPuesto where idHoraPuesto = @idHoraPuesto
+end
+go
+
+create PROC usp_mostrar_horarioP
+AS
+BEGIN
+	select * from HorarioPuesto 
+	
+end
+
+
 
 --Empleado---------------------------------------------------------------------------------------------------------------------
 create proc usp_mostrar_empleados
@@ -367,19 +375,21 @@ begin
 end
 go
 
+
 create proc usp_modifica_empleado
 @IdEMPLE CHAR(13),@fotoEmpleado VARCHAR(200), @NOMEMPLE VARCHAR(20), @APEPATERNO VARCHAR(20),
-@APEMATERNO VARCHAR(20), @SEXO VARCHAR(10), 
+@APEMATERNO VARCHAR(20), @SEXO VARCHAR(10),
 @FECHANACI DATE, @DISTRITO VARCHAR(15), @DIREC VARCHAR(40),
 @TELEF CHAR(9),@CORREO VARCHAR(100), @ASIGFAMILI VARCHAR(2)
 AS
 begin
-	update empleado set fotoEmpleado=@fotoEmpleado,nombres=@NOMEMPLE,apellidoPaterno=@APEPATERNO,apellidoMaterno=@APEMATERNO,
-			sexo=@SEXO,fechaNacimiento=@FECHANACI,DistritoResidencia= @DISTRITO,direccion=@DIREC,telefono=@TELEF,
-			correoElectronico=@CORREO,asignacionFamiliar=@ASIGFAMILI 
+	update empleado set idEmpleado=@IdEMPLE,fotoEmpleado=@fotoEmpleado,nombres=@NOMEMPLE,apellidoPaterno=@APEPATERNO,apellidoMaterno=@APEMATERNO,
+			sexo=@SEXO, fechaNacimiento=@FECHANACI,DistritoResidencia= @DISTRITO,direccion=@DIREC,telefono=@TELEF,
+			correoElectronico=@CORREO,asignacionFamiliar=@ASIGFAMILI
 			where idEmpleado=@IdEMPLE
 end 
-go
+GO
+
 
 create proc usp_elimina_empleado
 @IdEMPLE char(13)
@@ -401,13 +411,22 @@ GO
 
 --Asistencia-------------------------------------------------------------------------------------------------------------------
 CREATE PROC usp_graba_asistencia
-@IdASISTENCIA INT, @FECHA DATE, @HORAENTRA TIME, @HORASALE TIME,
-@IdEMPLE CHAR(8),@IdHORARIO INT
+@FECHA DATE, @HORAENTRA TIME, @HORASALE TIME,
+@IdEMPLE CHAR(13),@IdHORARIO INT
 AS
 begin
-INSERT INTO asistencia VALUES(@IdASISTENCIA,@FECHA,@HORAENTRA,@HORASALE,@IdEMPLE,@IdHORARIO);
+INSERT INTO asistencia VALUES(@FECHA,@HORAENTRA,@HORASALE,@IdEMPLE,@IdHORARIO);
 end
 GO
+
+CREATE PROC usp_mostrar_asistencias
+@IdEMPLE CHAR(13)
+AS
+begin
+	select * from asistencia where idEmpleado=@IdEMPLE;
+end
+GO
+
 
 
 /*VISTAS*/
